@@ -94,7 +94,7 @@ a {
     border-color: var(--primary);
 }
 
-    .btn-primary:hover {
+    .btn-primary:hover, .btn-primary:active {
         color: var(--font-secondary);
         background-color: var(--primary);
         border-color: var(--primary);
@@ -105,7 +105,7 @@ a {
     border-color: var(--primary);
 }
 
-    .btn-outline-primary:hover {
+    .btn-outline-primary:hover, .btn-outline-primary:active {
         color: var(--font-secondary);
         background-color: var(--primary-75);
         border-color: var(--primary);
@@ -117,7 +117,7 @@ a {
     border-color: var(--secondary);
 }
 
-    .btn-secondary:hover {
+    .btn-secondary:hover, .btn-secondary:active {
         color: var(--font-secondary);
         background-color: var(--secondary);
         border-color: var(--secondary);
@@ -128,7 +128,7 @@ a {
     border-color: var(--secondary);
 }
 
-    .btn-outline-secondary:hover {
+    .btn-outline-secondary:hover, .btn-outline-secondary:active {
         color: var(--font-secondary);
         background-color: var(--secondary-75);
         border-color: var(--secondary);
@@ -166,8 +166,14 @@ a {
         border-color: var(--gray);
     }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.bg-primary {
+    color: var(--font-secondary);
+    background-color: var(--primary-75);
+    border-color: var(--primary);
 }
 
 .content {
@@ -330,10 +336,28 @@ input[type=number] {
     text-align: center;
 }
 
-@media (max-width: 599px)
-{
+#search-button {
+    width: 64px;
+}
+
+#searchbar {
+    width: 600px;
+}
+
+.form-check {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+@media (max-width: 599px) {
+    h1 {
+        font-size: 18px;
+    }
+
     #searchbar {
         width: 164px;
+        height: 32px;
+        margin: 0;
     }
 
     #search-logo {
@@ -341,9 +365,10 @@ input[type=number] {
     }
 
     #search-button {
-        width: 64px;
-        padding: 2px;
+        width: 32px;
+        height: 32px;
         font-size: 12px;
+        padding: 0;
     }
 
     .details {
@@ -364,17 +389,29 @@ input[type=number] {
     .tbl-list {
         max-width: 35rem;
     }
+
+    #searchbar {
+        width: 300px;
+    }
 }
 
 @media (min-width: 900px) {
     .tbl-list {
         max-width: 45rem;
     }
+
+    #searchbar {
+        width: 400px;
+    }
 }
 
 @media (min-width: 1150px) {
     .tbl-list {
         max-width: 55rem;
+    }
+
+    #searchbar {
+        width: 500px;
     }
 }
 

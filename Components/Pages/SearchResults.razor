@@ -10,81 +10,135 @@
 
 <!--Filtry i wyniki-->
 <div class="row gx-3">
-    <div class="col-12">
+    <div class="col-12 mb-3">
         <p>Wyniki dla frazy: "@SearchTerm"</p>
-    </div>
 
-    <!--Przycisk do widoku mobilnego-->
-    <button class="btn btn-outline-primary d-lg-none mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
-        <i class="bi bi-funnel"></i> Filtry
-    </button>
-
-    <!--Wyniki-->
-    <div class="col-12 col-lg-8 col-xl-9">
-        @foreach (var book in (FilteredBooks?.Any() == true ? FilteredBooks : Books))
+        @if (FiltersApplied && HasActiveFilters())
         {
-            <div class="card mb-3 shadow-sm">
-                <div class="row g-0">
-                    <div class="col-md-4 d-flex justify-content-center align-items-center">
-                        <div class="book-cover-container">
-                            @if (book.ImageUrl == null)
-                            {
-                                <p class="text-muted text-center m-0">Brak okładki.</p>
-                            }
-                            else
-                            {
-                                <img src="@book.ImageUrl" alt="Okładka książki @book.Title" class="img-fluid p-2">
-                            }
-                        </div>
-                    </div>
-
-                    <div class="col-md-8 d-flex flex-column justify-content-between p-3">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
-                            <div>
-                                @if (book.BookSpecialTags != null && book.BookSpecialTags.Any())
-                                {
-                                    foreach (var tag in book.BookSpecialTags)
-                                    {
-                                        <span class="@GetBadgeClass(tag) me-1" role="note">@tag</span>
-                                    }
-                                }
-                            </div>
-                        </div>
-
-                        <div class="card-body p-0">
-                            <h5 class="card-title theme-font-col-pri">@book.Title</h5>
-                            <p class="card-text truncate-3-lines mb-0 theme-font-col-pri">@book.Description</p>
-                            <p class="card-text theme-font-col-pri"><small>@book.BookAuthor</small></p>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <p class="card-text mb-0 theme-font-col-pri">Dostępnych: <b>@book.AvailableCopyCount</b></p>
-                            <a href="/search/@book.Id/view?returnUrl=/search?term=@term" class="btn btn-primary" role="button">
-                                <i class="bi bi-info-square"></i> Szczegóły
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                @foreach (var author in Authors.Where(a => SelectedAuthorIds.Contains(a.Id)))
+                {
+                    <span class="badge bg-primary">Autor: @author.Name @author.Surname</span>
+                }
+                @foreach (var publisher in Publishers.Where(p => SelectedPublisherIds.Contains(p.Id)))
+                {
+                    <span class="badge bg-primary">Wydawca: @publisher.Name</span>
+                }
+                @foreach (var series in Series.Where(s => SelectedSeriesIds.Contains(s.Id)))
+                {
+                    <span class="badge bg-primary">Seria: @series.Title</span>
+                }
+                @foreach (var genre in Genres.Where(g => SelectedGenreIds.Contains(g.Id)))
+                {
+                    <span class="badge bg-primary">Gatunek: @genre.Title</span>
+                }
+                @foreach (var category in Categories.Where(c => SelectedCategoryIds.Contains(c.Id)))
+                {
+                    <span class="badge bg-primary">Kategoria: @category.Name</span>
+                }
+                @foreach (var type in Types.Where(t => SelectedTypeIds.Contains(t.Id)))
+                {
+                    <span class="badge bg-primary">Typ: @type.Title</span>
+                }
+                @foreach (var tag in SpecialTags.Where(t => SelectedTagTitles.Contains(t.Title)))
+                {
+                    <span class="badge bg-primary">Tag: @tag.Title</span>
+                }
             </div>
         }
     </div>
 
-    <!--Filtry-->
+        <!--Przycisk do widoku mobilnego-->
+        <button class="btn btn-outline-primary d-lg-none mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
+            <i class="bi bi-funnel"></i> Filtry
+        </button>
 
-    <!--Widok na dużym ekranie-->
-    <div class="col-12 col-lg-3 d-none d-lg-block">
-        <div class="card p-3 shadow-sm">
-            <h5 class="mb-3">Filtry</h5>
+        <!--Wyniki-->
 
+        <div class="col-12 col-lg-8 col-xl-9">
+            @if (FilteredBooks.Count == 0)
+            {
+                <div class="alert alert-warning mt-3">
+                    Brak wyników spełniających wybrane kryteria.
+                </div>
+            }
+            else
+            {
+                @foreach (var book in (FilteredBooks?.Any() == true ? FilteredBooks : Books))
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="row g-0">
+                            <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                <div class="book-cover-container">
+                                    @if (book.ImageUrl == null)
+                                    {
+                                        <p class="text-muted text-center m-0">Brak okładki.</p>
+                                    }
+                                    else
+                                    {
+                                        <img src="@book.ImageUrl" alt="Okładka książki @book.Title" class="img-fluid p-2">
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 d-flex flex-column justify-content-between p-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                                    <div>
+                                        @if (book.BookSpecialTags != null && book.BookSpecialTags.Any())
+                                        {
+                                            foreach (var tag in book.BookSpecialTags)
+                                            {
+                                                <span class="@GetBadgeClass(tag) me-1" role="note">@tag</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="card-body p-0">
+                                    <h5 class="card-title theme-font-col-pri">@book.Title</h5>
+                                    <p class="card-text truncate-3-lines mb-0 theme-font-col-pri">@book.Description</p>
+                                    <p class="card-text theme-font-col-pri"><small>@book.BookAuthor</small></p>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <p class="card-text mb-0 theme-font-col-pri">Dostępnych: <b>@book.AvailableCopyCount</b></p>
+                                    <a href="/search/@book.Id/view?returnUrl=/search?term=@term" class="btn btn-primary" role="button">
+                                        <i class="bi bi-info-square"></i> Szczegóły
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-center align-items-center gap-3">
+                    <button @onclick="() => ChangePage(CurrentPage - 1)" disabled="@(CurrentPage == 1)">Poprzednia</button>
+                    <span>Strona @CurrentPage z @((TotalCount + PageSize - 1) / PageSize)</span>
+                    <button @onclick="() => ChangePage(CurrentPage + 1)" disabled="@(CurrentPage * PageSize >= TotalCount)">Następna</button>
+                </div>
+            }
+        </div>
+
+        <!--Filtry-->
+
+        <!--Widok na dużym ekranie-->
+        <div class="col-12 col-lg-3 d-none d-lg-block">
+            <div class="card p-3 shadow-sm">
+                <h5 class="mb-3">Filtry</h5>
+            <!-- Przyciski akcji -->
+            <div class="d-flex justify-content-center gap-2 my-3">
+                <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
+            </div>
             <!-- Autorzy -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Autor</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var author in Authors)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="author_@author.Id"
-                                   value="@author.Id"
+                                   checked="@SelectedAuthorIds.Contains(author.Id)"
                                    @onchange="() => ToggleAuthor(author.Id)">
                             <label class="form-check-label" for="author_@author.Id">
                                 @author.Surname, @author.Name
@@ -97,12 +151,12 @@
             <!-- Wydawcy -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Wydawca</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var publisher in Publishers)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="publisher_@publisher.Id"
-                                   value="@publisher.Id"
+                                   checked="@SelectedPublisherIds.Contains(publisher.Id)"
                                    @onchange="() => TogglePublisher(publisher.Id)">
                             <label class="form-check-label" for="publisher_@publisher.Id">
                                 @publisher.Name
@@ -115,12 +169,12 @@
             <!-- Serie -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Seria</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var series in Series)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="series_@series.Id"
-                                   value="@series.Id"
+                                   checked="@SelectedSeriesIds.Contains(series.Id)"
                                    @onchange="() => ToggleSeries(series.Id)">
                             <label class="form-check-label" for="series_@series.Id">
                                 @series.Title
@@ -133,12 +187,12 @@
             <!-- Gatunki -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Gatunek</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var genre in Genres)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="genre_@genre.Id"
-                                   value="@genre.Id"
+                                   checked="@SelectedGenreIds.Contains(genre.Id)"
                                    @onchange="() => ToggleGenre(genre.Id)">
                             <label class="form-check-label" for="genre_@genre.Id">
                                 @genre.Title
@@ -151,12 +205,12 @@
             <!-- Kategorie -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Kategoria</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var category in Categories)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="category_@category.Id"
-                                   value="@category.Id"
+                                   checked="@SelectedCategoryIds.Contains(category.Id)"
                                    @onchange="() => ToggleCategory(category.Id)">
                             <label class="form-check-label" for="category_@category.Id">
                                 @category.Name
@@ -169,12 +223,12 @@
             <!-- Typy -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Typ</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var type in Types)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="type_@type.Id"
-                                   value="@type.Id"
+                                   checked="@SelectedTypeIds.Contains(type.Id)"
                                    @onchange="() => ToggleType(type.Id)">
                             <label class="form-check-label" for="type_@type.Id">
                                 @type.Title
@@ -187,12 +241,12 @@
             <!-- Tagi -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Tagi</label>
-                <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                <div class="form-check">
                     @foreach (var tag in SpecialTags)
                     {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="tag_@tag.Title"
-                                   value="@tag.Title"
+                                   checked="@SelectedTagTitles.Contains(tag.Title)"
                                    @onchange="() => ToggleTag(tag.Title)">
                             <label class="form-check-label" for="tag_@tag.Title">
                                 @tag.Title
@@ -202,30 +256,34 @@
                 </div>
             </div>
 
-            <!-- Przycisk zastosuj -->
-            <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj filtry</button>
-        </div>
-    </div>
 
-    <!--Widok na mobile-->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas" aria-labelledby="filtersOffcanvasLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="filtersOffcanvasLabel">Filtry</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+                <!-- Przyciski akcji -->
+                <div class="d-flex justify-content-center gap-2 my-3">
+                    <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                    <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
+                </div>
+            </div>
         </div>
 
-        <div class="offcanvas-body">
-            <div class="border rounded p-3 shadow-sm">
+        <!--Widok na mobile-->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas" aria-labelledby="filtersOffcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="filtersOffcanvasLabel">Filtry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <div class="border rounded p-3 shadow-sm">
 
                 <!-- Autorzy -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Autor</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var author in Authors)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="author_@author.Id"
-                                       value="@author.Id"
+                                       checked="@SelectedAuthorIds.Contains(author.Id)"
                                        @onchange="() => ToggleAuthor(author.Id)">
                                 <label class="form-check-label" for="author_@author.Id">
                                     @author.Surname, @author.Name
@@ -238,12 +296,12 @@
                 <!-- Wydawcy -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Wydawca</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var publisher in Publishers)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="publisher_@publisher.Id"
-                                       value="@publisher.Id"
+                                       checked="@SelectedPublisherIds.Contains(publisher.Id)"
                                        @onchange="() => TogglePublisher(publisher.Id)">
                                 <label class="form-check-label" for="publisher_@publisher.Id">
                                     @publisher.Name
@@ -256,12 +314,12 @@
                 <!-- Serie -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Seria</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var series in Series)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="series_@series.Id"
-                                       value="@series.Id"
+                                       checked="@SelectedSeriesIds.Contains(series.Id)"
                                        @onchange="() => ToggleSeries(series.Id)">
                                 <label class="form-check-label" for="series_@series.Id">
                                     @series.Title
@@ -274,12 +332,12 @@
                 <!-- Gatunki -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Gatunek</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var genre in Genres)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="genre_@genre.Id"
-                                       value="@genre.Id"
+                                       checked="@SelectedGenreIds.Contains(genre.Id)"
                                        @onchange="() => ToggleGenre(genre.Id)">
                                 <label class="form-check-label" for="genre_@genre.Id">
                                     @genre.Title
@@ -292,12 +350,12 @@
                 <!-- Kategorie -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Kategoria</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var category in Categories)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="category_@category.Id"
-                                       value="@category.Id"
+                                       checked="@SelectedCategoryIds.Contains(category.Id)"
                                        @onchange="() => ToggleCategory(category.Id)">
                                 <label class="form-check-label" for="category_@category.Id">
                                     @category.Name
@@ -310,12 +368,12 @@
                 <!-- Typy -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Typ</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var type in Types)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="type_@type.Id"
-                                       value="@type.Id"
+                                       checked="@SelectedTypeIds.Contains(type.Id)"
                                        @onchange="() => ToggleType(type.Id)">
                                 <label class="form-check-label" for="type_@type.Id">
                                     @type.Title
@@ -328,12 +386,12 @@
                 <!-- Tagi -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tagi</label>
-                    <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+                    <div class="form-check">
                         @foreach (var tag in SpecialTags)
                         {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="tag_@tag.Title"
-                                       value="@tag.Title"
+                                       checked="@SelectedTagTitles.Contains(tag.Title)"
                                        @onchange="() => ToggleTag(tag.Title)">
                                 <label class="form-check-label" for="tag_@tag.Title">
                                     @tag.Title
@@ -343,19 +401,16 @@
                     </div>
                 </div>
 
-                <!-- Przycisk zastosuj -->
-                <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj filtry</button>
+
+                <div class="d-flex justify-content-center gap-2 my-3">
+                    <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                    <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
-
 </div>
 
-<div class="d-flex justify-content-center align-items-center gap-3">
-    <button @onclick="() => ChangePage(CurrentPage - 1)" disabled="@(CurrentPage == 1)">Poprzednia</button>
-    <span>Strona @CurrentPage z @((TotalCount + PageSize - 1) / PageSize)</span>
-    <button @onclick="() => ChangePage(CurrentPage + 1)" disabled="@(CurrentPage * PageSize >= TotalCount)">Następna</button>
-</div>
 
 @code {
     #region parametry
@@ -394,6 +449,8 @@
     private HashSet<int> SelectedCategoryIds = new();
     private HashSet<int> SelectedTypeIds = new();
     private HashSet<string> SelectedTagTitles = new();
+
+    private bool FiltersApplied = false;
     #endregion
 
     protected override async Task OnInitializedAsync()
@@ -401,7 +458,6 @@
         await LoadData();
         await LoadBooks();
     }
-
 
     protected override async Task OnParametersSetAsync()
     {
@@ -458,15 +514,37 @@
     #endregion
 
     #region wyszukiwanie i filtry
+    private async Task ClearAllFilters()
+    {
+        SelectedAuthorIds.Clear();
+        SelectedPublisherIds.Clear();
+        SelectedSeriesIds.Clear();
+        SelectedGenreIds.Clear();
+        SelectedCategoryIds.Clear();
+        SelectedTypeIds.Clear();
+        SelectedTagTitles.Clear();
+
+        await ApplyFilters();
+        StateHasChanged();
+    }
+
     private async Task ApplyFilters()
     {
+        FiltersApplied = true;
         await LoadBooks();
+    }
+
+    private static string RemoveDiacritics(string text)
+    {
+        return string.Concat(text.Normalize(System.Text.NormalizationForm.FormD)
+            .Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark));
     }
 
     private async Task LoadBooks()
     {
         var books = Books.ToList();
 
+        // Filtry
         if (SelectedAuthorIds.Any())
             books = books.Where(b => SelectedAuthorIds.Contains(b.BookAuthorId)).ToList();
 
@@ -489,15 +567,22 @@
             books = books.Where(b => b.BookSpecialTags != null &&
                                      b.BookSpecialTags.Any(tag => SelectedTagTitles.Contains(tag))).ToList();
 
+        // Fuzzy search
         if (!string.IsNullOrWhiteSpace(SearchTerm))
         {
-            var lowered = SearchTerm.ToLower();
+            var loweredSearch = RemoveDiacritics(SearchTerm.ToLowerInvariant());
+            const int fuzzyThreshold = 65;
 
             books = books.Where(b =>
-                (b.Title?.ToLower().Contains(lowered) ?? false) ||
-                (b.BookAuthor?.ToLower().Contains(lowered) ?? false) ||
-                (b.Isbn?.ToLower().Contains(lowered) ?? false)
-            ).ToList();
+            {
+                var title = RemoveDiacritics(b.Title?.ToLowerInvariant() ?? "");
+                var author = RemoveDiacritics(b.BookAuthor?.ToLowerInvariant() ?? "");
+                var isbn = RemoveDiacritics(b.Isbn?.ToLowerInvariant() ?? "");
+
+                return Fuzz.PartialRatio(title, loweredSearch) >= fuzzyThreshold ||
+                       Fuzz.PartialRatio(author, loweredSearch) >= fuzzyThreshold ||
+                       Fuzz.PartialRatio(isbn, loweredSearch) >= fuzzyThreshold;
+            }).ToList();
         }
 
         TotalCount = books.Count;
@@ -506,6 +591,14 @@
             .Skip((CurrentPage - 1) * PageSize)
             .Take(PageSize)
             .ToList();
+    }
+
+    private bool HasActiveFilters()
+    {
+        return SelectedAuthorIds.Any() || SelectedPublisherIds.Any() ||
+               SelectedSeriesIds.Any() || SelectedGenreIds.Any() ||
+               SelectedCategoryIds.Any() || SelectedTypeIds.Any() ||
+               SelectedTagTitles.Any();
     }
     #endregion
 
