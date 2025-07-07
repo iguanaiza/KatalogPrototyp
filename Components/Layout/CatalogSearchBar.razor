@@ -24,17 +24,17 @@
 
             <div class="d-flex align-items-center">
                 <!-- Logo -->
-                <img class="books-icon me-4" alt="Symbol katalogu" src="/images/katalog.png" width="112">
+                <img id="search-logo" class="books-icon me-4" alt="Symbol katalogu" src="/images/katalog.png" width="112">
 
                 <!-- Tytuł i wyszukiwarka -->
                 <form class="flex-grow-1" @onsubmit="OnFormSubmit">
                     <h1 class="mb-3 text-center theme-font-col-pri">Katalog Online</h1>
                     <div class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Szukaj"
+                        <input id="searchbar" class="form-control me-2" type="search" placeholder="Szukaj"
                                aria-label="Szukaj"
                                @bind="SearchTerm">
 
-                        <button class="btn btn-lg btn-primary text-nowrap" type="submit">
+                        <button id="search-button" class="btn btn-lg btn-primary text-nowrap" type="submit">
                             <i class="bi bi-search"></i> Szukaj
                             </button>
                     </div>

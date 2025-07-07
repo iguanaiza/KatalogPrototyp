@@ -330,6 +330,36 @@ input[type=number] {
     text-align: center;
 }
 
+@media (max-width: 599px)
+{
+    #searchbar {
+        width: 164px;
+    }
+
+    #search-logo {
+        width: 64px;
+    }
+
+    #search-button {
+        width: 64px;
+        padding: 2px;
+        font-size: 12px;
+    }
+
+    .details {
+        font-size: 12px;
+        padding: 0;
+    }
+
+        .details th {
+            width: 10px;
+        }
+
+    .table {
+        font-size: 12px;
+    }
+}
+
 @media (min-width: 600px) {
     .tbl-list {
         max-width: 35rem;

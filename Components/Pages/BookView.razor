@@ -59,91 +59,93 @@ else
                     <!--Opis-->
                     <div class="col-md-8">
                         <div class="card-body">
-                            <table class="details align-top">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2">
-                                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                             <div class="table-responsive-xxl">
+                                <table class="details table-sm align-top">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                                                <div class="d-flex flex-wrap gap-1">
-                                                    @if (book.BookSpecialTags != null && book.BookSpecialTags.Any())
-                                                    {
-                                                        foreach (var tag in book.BookSpecialTags)
+                                                    <div class="d-flex flex-wrap gap-1">
+                                                        @if (book.BookSpecialTags != null && book.BookSpecialTags.Any())
                                                         {
-                                                            <label class="@GetBadgeClass(tag)">@tag</label>
+                                                            foreach (var tag in book.BookSpecialTags)
+                                                            {
+                                                                <label class="@GetBadgeClass(tag)">@tag</label>
+                                                            }
                                                         }
-                                                    }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Tytuł</th>
-                                        <td> @book.Title </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Tytuł</th>
+                                            <td> @book.Title </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Autor </th>
-                                        <td> @book.BookAuthor </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Autor </th>
+                                            <td> @book.BookAuthor </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Rok wydania </th>
-                                        <td> @book.Year </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Rok wydania </th>
+                                            <td> @book.Year </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Wydawca </th>
-                                        <td> @book.BookPublisher </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Wydawca </th>
+                                            <td> @book.BookPublisher </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Klasa </th>
-                                        <td> @book.Class </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Klasa </th>
+                                            <td> @book.Class </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Przedmiot </th>
-                                        <td> @book.Subject </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Przedmiot </th>
+                                            <td> @book.Subject </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Numer ISBN </th>
-                                        <td> @book.Isbn </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Numer ISBN </th>
+                                            <td> @book.Isbn </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Liczba stron </th>
-                                        <td> @book.PageCount </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Liczba stron </th>
+                                            <td> @book.PageCount </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Opis książki </th>
-                                        <td> @book.Description </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Opis książki </th>
+                                            <td> @book.Description </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Seria </th>
-                                        <td> @book.BookSeries </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Seria </th>
+                                            <td> @book.BookSeries </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Typ </th>
-                                        <td> @book.BookType </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Typ </th>
+                                            <td> @book.BookType </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Kategoria </th>
-                                        <td> @book.BookCategory </td>
-                                    </tr>
+                                        <tr>
+                                            <th > Kategoria </th>
+                                            <td> @book.BookCategory </td>
+                                        </tr>
 
-                                    <tr>
-                                        <th > Gatunki </th>
-                                        <td> @string.Join(", ", book.BookGenres) </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <th > Gatunki </th>
+                                            <td> @string.Join(", ", book.BookGenres) </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                             </div>
                         </div>
                     </div>
                 </div>
