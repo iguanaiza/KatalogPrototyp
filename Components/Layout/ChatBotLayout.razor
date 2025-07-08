@@ -1,20 +1,98 @@
-﻿<div id="chat-container" class="theme-green">
-    <!-- Panel czatu -->
-    <div id="chat-box" class="hidden">
-        <div id="chat-header">
-            <span>Chat Biblioteki</span>
-            <button id="chat-close-btn" aria-label="Zamknij czat">✖</button>
-        </div>
-        <div id="chat-messages"></div>
-        <form id="chat-form">
-            <input type="text" id="chat-input" placeholder="Wpisz wiadomość..." autocomplete="off" />
-            <button type="submit">➤</button>
-        </form>
+﻿@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<div class="chatbot-container" @onclick:stopPropagation>
+    <div class="chat-icon" @onclick="ToggleChat" title="Otwórz czat">
+        💬
     </div>
 
-    <!-- Ikona czatu -->
-    <button id="chat-toggle-btn" aria-label="Otwórz czat">💬</button>
+    @if (IsOpen)
+    {
+        <div class="chat-window" @onclick:stopPropagation>
+            <div class="chat-header">
+                <span>Chatbot</span>
+                <button class="close-btn" @onclick="ToggleChat" aria-label="Zamknij czat">×</button>
+            </div>
+
+            <div class="chat-messages" @ref="messagesContainer">
+                @foreach (var message in Messages)
+                {
+                    <div class="chat-message-wrapper @(message.IsUser ? "user" : "bot")">
+                        @if (!message.IsUser)
+                        {
+                            <div class="chat-icon-bubble" title="Bot">🤖</div>
+                        }
+                        <div class="chat-message @(message.IsUser ? "user" : "bot")">
+                            @message.Text
+                        </div>
+                        @if (message.IsUser)
+                        {
+                            <div class="chat-icon-bubble" title="User">🧑</div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="chat-input">
+                <input type="text" @bind="UserInput" @bind:event="oninput" placeholder="Wpisz wiadomość..." @onkeydown="HandleKeyDown" />
+                <button @onclick="SendMessage" disabled="@string.IsNullOrWhiteSpace(UserInput)">Wyślij</button>
+            </div>
+        </div>
+    }
 </div>
 
-<link rel="stylesheet" href="chat.css" />
-<script src="chat.js" defer></script>
+@code {
+    private bool IsOpen = false;
+    private string UserInput = string.Empty;
+    private List<ChatMessage> Messages = new()
+    {
+        new ChatMessage { Text = "Cześć! Jak mogę pomóc?", IsUser = false }
+    };
+
+    private ElementReference messagesContainer;
+
+    private void ToggleChat()
+    {
+        IsOpen = !IsOpen;
+        if (IsOpen)
+            _ = ScrollToBottomAsync();
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(UserInput))
+            return;
+
+        Messages.Add(new ChatMessage { Text = UserInput.Trim(), IsUser = true });
+        UserInput = string.Empty;
+
+        await InvokeAsync(StateHasChanged);
+        await ScrollToBottomAsync();
+
+        await Task.Delay(500);
+        Messages.Add(new ChatMessage { Text = "Odpowiedź bota", IsUser = false });
+
+        await InvokeAsync(StateHasChanged);
+        await ScrollToBottomAsync();
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(UserInput))
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task ScrollToBottomAsync()
+    {
+        await Task.Delay(50);
+        await JS.InvokeVoidAsync("scrollToBottom", messagesContainer);
+    }
+
+    public class ChatMessage
+    {
+        public string Text { get; set; } = string.Empty;
+        public bool IsUser { get; set; }
+    }
+}
