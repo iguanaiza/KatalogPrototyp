@@ -1,0 +1,116 @@
+﻿.hidden {
+    display: none !important;
+}
+
+#chat-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+/* Ikona czatu*/
+#chat-toggle-btn {
+    background-color: var(--primary);
+    color: var(--font-secondary);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+/* Okienko czatu*/
+#chat-box {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 320px;
+    height: 420px;
+    background-color: var(--background);
+    border: 2px solid var(--primary);
+    border-radius: 16px 16px 0 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Nagłówek */
+#chat-header {
+    background-color: var(--primary);
+    color: var(--font-secondary);
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* Treść czatu */
+#chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: var(--secondary-25);
+}
+
+/* Formularz */
+#chat-form {
+    display: flex;
+    padding: 10px;
+    background-color: var(--background);
+    border-top: 1px solid var(--primary-50);
+}
+
+#chat-input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--primary-50);
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#chat-form button {
+    background-color: var(--primary);
+    color: var(--font-secondary);
+    border: none;
+    padding: 8px 12px;
+    margin-left: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Wiadomości */
+.chat-message {
+    padding: 8px 12px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    max-width: 75%;
+    clear: both;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+    .chat-message.user {
+        background-color: var(--secondary);
+        align-self: flex-end;
+        float: right;
+        text-align: right;
+        color: var(--font-primary);
+    }
+
+    .chat-message.bot {
+        background-color: var(--primary-25);
+        align-self: flex-start;
+        float: left;
+        text-align: left;
+        color: var(--font-primary);
+    }
