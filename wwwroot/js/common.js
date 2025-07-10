@@ -34,3 +34,23 @@ function scrollToBottom(container) {
         container.scrollTop = container.scrollHeight;
     }
 }
+
+//cache clear
+window.clearClientStorage = () => {
+    const confirmed = confirm("Czy chcesz wyczyścić pamięć podręczna? To spowoduje odświeżenie strony i pobranie nowych danych z serwera. Ta operacja może znacząco obciążyć twoje urządzenie. Czy mimo to chcesz kontynuować?");
+    if (!confirmed) return;
+
+    localStorage.clear();
+    sessionStorage.clear();
+
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+        const eqPos = c.indexOf("=");
+        const name = eqPos > -1 ? c.substr(0, eqPos) : c;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+
+    alert("Dane lokalne zostały wyczyszczone. Strona zostanie odświeżona.");
+
+    location.reload();
+};

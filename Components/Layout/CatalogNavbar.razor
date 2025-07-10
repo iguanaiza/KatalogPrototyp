@@ -27,21 +27,21 @@
                 <ul class="navbar-nav d-flex flex-row">
                     <!-- Zmień rozmiar czcionki -->
                     <li class="nav-item mx-2">
-                        <a class="nav-link theme-font-color btn btn-nav">
+                        <a class="nav-link theme-font-color btn btn-nav" @onclick="CycleFontSize">
                             <i class="bi bi-type" title="Zmień rozmiar czcionki"></i>
                         </a>
                     </li>
 
                     <!-- Zmień motyw kolorystyczny -->
                     <li class="nav-item mx-2">
-                        <a class="nav-link theme-font-color btn btn-nav">
+                        <a class="nav-link theme-font-color btn btn-nav" @onclick="CycleTheme">
                             <i class="bi bi-palette-fill" title="Zmień motyw"></i>
                         </a>
                     </li>
 
                     <!-- Włącz/wyłącz kontrast -->
                     <li class="nav-item mx-2">
-                        <a class="nav-link theme-font-color btn btn-nav">
+                        <a class="nav-link theme-font-color btn btn-nav" @onclick="ToggleContrast">
                             <i class="bi bi-highlights" title="Wysoki kontrast"></i>
                         </a>
                     </li>
@@ -52,5 +52,7 @@
 </div>
 
 @code {
-
+    private async Task CycleFontSize() => await JS.InvokeVoidAsync("cycleFontSize");
+    private async Task CycleTheme() => await JS.InvokeVoidAsync("cycleTheme");
+    private async Task ToggleContrast() => await JS.InvokeVoidAsync("toggleContrast");
 }
