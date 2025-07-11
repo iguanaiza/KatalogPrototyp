@@ -1,0 +1,70 @@
+﻿@page "/konto/zaloguj"
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<PageTitle>Zaloguj</PageTitle>
+
+<div class="mb-4 mt-4 p-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 p-4 card">
+            <section>
+                <h2>Zaloguj się</h2>
+
+                <p>
+                    Aby otrzymać dane logowania, skontaktuj się z biblioteką.
+                    Tylko zalogowani użytkownicy mogą wypożyczać książki przez katalog online.<br /> <br />
+
+                    <span class="text-danger">Informacja: Ta strona to tylko prototyp, nie obsługuje logowania.</span>
+                </p>
+
+                <div class="login-form">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com" autocomplete="username" aria-required="true" />
+                            <label for="email" class="form-label">Email</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="Hasło" autocomplete="current-password" aria-required="true" />
+                            <label for="password" class="form-label">Hasło</label>
+                        </div>
+
+                        <div class="checkbox mb-3">
+                            <label class="form-label">
+                                <input type="checkbox" class="darker-border-checkbox form-check-input" />
+                                Zapamiętaj mnie
+                            </label>
+                        </div>
+
+                        <div>
+                            <button type="button" class="w-100 btn btn-lg btn-primary">Zaloguj</button>
+                        </div>
+
+                        <div>
+                            <p class="mt-1">
+                                <a href="/konto/zaloguj">Nie pamiętam hasła</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <p>
+                    Jeśli napotkasz problemy techniczne lub nie wiesz jak skorzystać z systemu, zgłoś się do biblioteki lub wyślij wiadomość na adres: <em>biblioteka@sp123testy.edu.pl</em> <br /><br />
+                    Dodatkowa pomoc jest dostępna w zakładce <a href="/pomoc">POMOC</a>. <br/> <br/>
+                    <span class="text-danger">Informacja: Ta strona to tylko prototyp, podany e-mail nie istnieje.</span>
+                </p>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("applyUserPreferences");
+        }
+    }
+}

@@ -52,7 +52,7 @@
 
 .book-title {
     padding: 0.5rem;
-    font-size: 0.8rem;
+    font-size: var(--font-size);
     text-align: center;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -100,10 +100,6 @@
     .book-card {
         width: 12rem;
         height: 15rem;
-    }
-
-    .book-title {
-        font-size: 0.9rem;
     }
 
     .carousel-container {

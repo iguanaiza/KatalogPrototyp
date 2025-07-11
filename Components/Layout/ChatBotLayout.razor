@@ -22,9 +22,18 @@
                         {
                             <div class="chat-icon-bubble" title="Bot">🤖</div>
                         }
+
                         <div class="chat-message @(message.IsUser ? "user" : "bot")">
-                            @message.Text
+                            @if (message.IsHtml)
+                            {
+                                @((MarkupString)message.Text)
+                            }
+                            else
+                            {
+                                @message.Text
+                            }
                         </div>
+     
                         @if (message.IsUser)
                         {
                             <div class="chat-icon-bubble" title="User">🧑</div>
@@ -46,11 +55,19 @@
     private string UserInput = string.Empty;
     private List<ChatMessage> Messages = new()
     {
-        new ChatMessage { Text = "Cześć! Jak mogę pomóc?", IsUser = false }
+        new ChatMessage { Text = "👋 Cześć! Jak mogę pomóc?", IsUser = false }
     };
 
     private ElementReference messagesContainer;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("applyUserPreferences");
+        }
+    }
+    
     private void ToggleChat()
     {
         IsOpen = !IsOpen;
@@ -70,7 +87,8 @@
         await ScrollToBottomAsync();
 
         await Task.Delay(500);
-        Messages.Add(new ChatMessage { Text = "Odpowiedź bota", IsUser = false });
+        var response = GetBotResponse(Messages.Last().Text);
+        Messages.Add(new ChatMessage { Text = response.Text, IsUser = false, IsHtml = response.IsHtml });
 
         await InvokeAsync(StateHasChanged);
         await ScrollToBottomAsync();
@@ -94,5 +112,110 @@
     {
         public string Text { get; set; } = string.Empty;
         public bool IsUser { get; set; }
+        public bool IsHtml { get; set; } = false;
+    }
+
+    private (string Text, bool IsHtml) GetBotResponse(string input)
+    {
+        var lowered = input.ToLower();
+
+        if (lowered.Contains("hej") || lowered.Contains("czesc") || lowered.Contains("cześć") || lowered.Contains("witaj") || lowered.Contains("siema") || lowered.Contains("siemka") || lowered.Contains("elo") || lowered.Contains("dzień dobry") || lowered.Contains("dzien dobry"))
+        {
+            string powitanie = "";
+
+            if (lowered.Contains("hej")) powitanie = "Hej! 😀";
+            else if (lowered.Contains("czesc") || lowered.Contains("cześć")) powitanie = "Cześć! 😊";
+            else if (lowered.Contains("witaj")) powitanie = "Witaj! 😊";
+            else if (lowered.Contains("siema")) powitanie = "Siema! 😁";
+            else if (lowered.Contains("siemka")) powitanie = "Siemka! 😁";
+            else if (lowered.Contains("elo")) powitanie = "Elo! 😀";
+            else if (lowered.Contains("dzień dobry") || lowered.Contains("dzien dobry")) powitanie = "Dzień dobry! 🙂";
+
+            return ($"{powitanie} W czym mogę pomóc?", true);
+        }
+        
+        if (lowered.Contains("godziny") || lowered.Contains("otwarcia") || lowered.Contains("otwarte"))
+            return ("🕒 Godziny otwarcia biblioteki: <br />" +
+                    "Poniedziałek: 07:30 – 12:30<br />" +
+                    "Wtorek: 08:00 – 13:30<br />" +
+                    "Środa: 08:00 – 13:30<br />" +
+                    "Czwartek: 08:00 – 13:30<br />" +
+                    "Piątek: 09:00 – 14:00<br /><br />" +
+                    "ℹ Więcej informacji o bibliotece znajdziesz w zakładce <a href=\"/kontakt\">KONTAKT</a>.",
+                    true);
+
+        if (lowered.Contains("pomoc") || lowered.Contains("informacje") || lowered.Contains("pomóż") || lowered.Contains("pomoz"))
+            return ("🤓 Chętnie pomogę! Możesz zapytać np. o lektury, podręczniki lub godziny otwarcia.<br /> <br />" +
+                    "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
+                    "<em>\"Szukam harry potter\"</em> <br /> <br />" +
+                    "ℹ Informacje o bibliotece i godziny otwarcia znajdziesz w zakładce <a href=\"/kontakt\">KONTAKT</a>.<br /> <br />" +
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\">POMOC</a>.",
+                    true);
+
+        if (lowered.Contains("jak") || lowered.Contains("katalog") || lowered.Contains("dostępne"))
+            return ("📚 Wszystkie książki dostępne są w zakładce <a href=\"/kontakt\">KATALOG</a>." +
+                    "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
+                    "<em>\"Szukam harry potter\"</em> <br />" +
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\">POMOC</a>.",
+                    true);
+
+        if (lowered.Contains("lektur"))
+            return ("📖 Listę lektur znajdziesz w zakładce <a href=\"/lektury\">Lektury</a>.",
+                    false);
+
+        if (lowered.Contains("podręcznik") || lowered.Contains("podrecznik"))
+            return ("📖 Listę podręczników znajdziesz w zakładce <a href=\"/podreczniki\">Podręczniki</a>.",
+                    false);
+
+        if (lowered.Contains("ksiazki") || lowered.Contains("książki"))
+            return ("📚 Wszystkie książki dostępne są w <a href=\"/catalog\">Katalogu</a>.<br /><br />" +
+                    "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
+                    "<em>\"Szukam harry potter\"</em>",
+                    true);
+
+        if (lowered.Contains("szukam") || lowered.Contains("czy macie") || lowered.Contains("jest"))
+        {
+            var parts = input.Split(" ", 2, StringSplitOptions.RemoveEmptyEntries);
+            var term = "";
+
+            if (lowered.Contains("szukam"))
+                term = input.Substring(lowered.IndexOf("szukam") + "szukam".Length).Trim(' ', '?', '.');
+            else if (lowered.Contains("czy macie"))
+                term = input.Substring(lowered.IndexOf("czy macie") + "czy macie".Length).Trim(' ', '?', '.');
+
+            if (!string.IsNullOrWhiteSpace(term))
+            {
+                var encodedTerm = Uri.EscapeDataString(term);
+                return (
+                    $"🔍 Oto wyniki wyszukiwania dla: <em>{term}</em><br /><a href=\"/search?term={encodedTerm}\">Kliknij tutaj, aby zobaczyć wyniki</a>.",
+                    true
+                );
+            }
+        }
+
+        if (lowered.Contains("logowanie") || lowered.Contains("zaloguj"))
+            return ("🔑 Aby otrzymać dane logowania, skontaktuj się z biblioteką.<br/><br/>" +
+                    "🛠 Jeśli napotkasz problemy techniczne lub nie wiesz jak skorzystać z systemu, zgłoś się do biblioteki lub wyślij wiadomość na adres: <em>biblioteka@sp123testy.edu.pl</em><br/><br/>" +
+                    "ℹ Dodatkowa pomoc jest dostępna w zakładce <a href=\"/pomoc\">POMOC</a>. </br>" +
+                    "<span class=\"text - danger\">Informacja: Ta strona to tylko prototyp, podany e-mail nie istnieje.</span>",
+                    true);
+
+        if (lowered.Contains("dziękuje") || lowered.Contains("dziekuje") || lowered.Contains("dzieki") || lowered.Contains("dzięki") || lowered.Contains("ok") || lowered.Contains("thx"))
+            return ("Nie ma za co. W czym jeszcze mogę pomóc? 🤓",
+                    false);
+
+        if (lowered.Contains("pa") || lowered.Contains("widzenia") || lowered.Contains("egnaj") || lowered.Contains("nara") || lowered.Contains("narka") || lowered.Contains("dozo") || lowered.Contains("zobaczenia"))
+        {
+            string pozegnanie = "";
+
+            if (lowered.Contains("pa")) pozegnanie = "Papa! 😀";
+            else if (lowered.Contains("widzenia")) pozegnanie = "Do widzenia! 😊";
+            else if (lowered.Contains("egnaj") || lowered.Contains("dozo") || lowered.Contains("zobaczenia")) pozegnanie = "Do zobaczenia! 🙂";
+            else if (lowered.Contains("nara") || lowered.Contains("narka")) pozegnanie = "Nara! 😝";
+            return ($"{pozegnanie}", true);
+        }
+
+        return ("❓ Przepraszam, nie rozumiem pytania. Spróbuj inaczej lub zapytaj o 'pomoc'.",
+                 false);
     }
 }

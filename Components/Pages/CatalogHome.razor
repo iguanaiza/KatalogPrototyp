@@ -37,6 +37,14 @@
 @code {
     private Dictionary<string, IEnumerable<BookGetDto>> BooksByTag = new();
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("applyUserPreferences");
+        }
+    }
+    
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
