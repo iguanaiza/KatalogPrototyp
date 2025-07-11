@@ -29,7 +29,7 @@ html, body {
     --font-size-h2: 28px !important;
 }
 
-h1, h2, h3, h4, h5, h6, p, label {
+h1, h2, h3, h4, h5, h6, p, #email-label {
     color: var(--font-primary);
 }
 
