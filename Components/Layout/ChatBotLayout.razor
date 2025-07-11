@@ -141,34 +141,34 @@
                     "Środa: 08:00 – 13:30<br />" +
                     "Czwartek: 08:00 – 13:30<br />" +
                     "Piątek: 09:00 – 14:00<br /><br />" +
-                    "ℹ Więcej informacji o bibliotece znajdziesz w zakładce <a href=\"/kontakt\">KONTAKT</a>.",
+                    "ℹ Więcej informacji o bibliotece znajdziesz w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn btn-primary\">KONTAKT</a>.",
                     true);
 
         if (lowered.Contains("pomoc") || lowered.Contains("informacje") || lowered.Contains("pomóż") || lowered.Contains("pomoz"))
             return ("🤓 Chętnie pomogę! Możesz zapytać np. o lektury, podręczniki lub godziny otwarcia.<br /> <br />" +
                     "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
                     "<em>\"Szukam harry potter\"</em> <br /> <br />" +
-                    "ℹ Informacje o bibliotece i godziny otwarcia znajdziesz w zakładce <a href=\"/kontakt\">KONTAKT</a>.<br /> <br />" +
-                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\">POMOC</a>.",
+                    "ℹ Informacje o bibliotece i godziny otwarcia znajdziesz w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">KONTAKT</a>.<br /> <br />" +
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
                     true);
 
         if (lowered.Contains("jak") || lowered.Contains("katalog") || lowered.Contains("dostępne"))
-            return ("📚 Wszystkie książki dostępne są w zakładce <a href=\"/kontakt\">KATALOG</a>." +
+            return ("📚 Wszystkie książki dostępne są w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">KATALOG</a>." +
                     "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
                     "<em>\"Szukam harry potter\"</em> <br />" +
-                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\">POMOC</a>.",
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
                     true);
 
         if (lowered.Contains("lektur"))
-            return ("📖 Listę lektur znajdziesz w zakładce <a href=\"/lektury\">Lektury</a>.",
+            return ("📖 Listę lektur znajdziesz w zakładce <a href=\"/lektury\" class=\"btn btn-sm btn-primary\">Lektury</a>.",
                     false);
 
         if (lowered.Contains("podręcznik") || lowered.Contains("podrecznik"))
-            return ("📖 Listę podręczników znajdziesz w zakładce <a href=\"/podreczniki\">Podręczniki</a>.",
+            return ("📖 Listę podręczników znajdziesz w zakładce <a href=\"/podreczniki\" class=\"btn btn-sm btn-primary\">Podręczniki</a>.",
                     false);
 
         if (lowered.Contains("ksiazki") || lowered.Contains("książki"))
-            return ("📚 Wszystkie książki dostępne są w <a href=\"/catalog\">Katalogu</a>.<br /><br />" +
+            return ("📚 Wszystkie książki dostępne są w <a href=\"/catalog\" class=\"btn btn-sm btn-primary\">Katalogu</a>.<br /><br />" +
                     "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
                     "<em>\"Szukam harry potter\"</em>",
                     true);
@@ -187,7 +187,7 @@
             {
                 var encodedTerm = Uri.EscapeDataString(term);
                 return (
-                    $"🔍 Oto wyniki wyszukiwania dla: <em>{term}</em><br /><a href=\"/search?term={encodedTerm}\">Kliknij tutaj, aby zobaczyć wyniki</a>.",
+                    $"🔍 Oto wyniki wyszukiwania dla: <em>{term}</em><br /><a href=\"/search?term={encodedTerm}\" class=\"btn btn-sm btn-primary\">Kliknij tutaj, aby zobaczyć wyniki</a>.",
                     true
                 );
             }
@@ -196,7 +196,7 @@
         if (lowered.Contains("logowanie") || lowered.Contains("zaloguj"))
             return ("🔑 Aby otrzymać dane logowania, skontaktuj się z biblioteką.<br/><br/>" +
                     "🛠 Jeśli napotkasz problemy techniczne lub nie wiesz jak skorzystać z systemu, zgłoś się do biblioteki lub wyślij wiadomość na adres: <em>biblioteka@sp123testy.edu.pl</em><br/><br/>" +
-                    "ℹ Dodatkowa pomoc jest dostępna w zakładce <a href=\"/pomoc\">POMOC</a>. </br>" +
+                    "ℹ Dodatkowa pomoc jest dostępna w zakładce <a href=\"/pomoc\" class=\"btn btn-sm btn-primary\">POMOC</a>. </br>" +
                     "<span class=\"text - danger\">Informacja: Ta strona to tylko prototyp, podany e-mail nie istnieje.</span>",
                     true);
 
