@@ -10,8 +10,6 @@
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
-<PageTitle>Szczegóły ksiązki - Biblioteka SP 123 w Testach</PageTitle>
-
 @if (IsLoading)
 {
     <div class="position-absolute w-75  h-75 d-flex flex-column align-items-center bg-white justify-content-center">
@@ -220,19 +218,24 @@ else
 
     private bool IsLoading = true;
     private int FavoriteCount;
+    private bool _pageTitleSet = false;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JS.InvokeVoidAsync("applyUserPreferences");
-        }
-    }
-    
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
         IsLoading = false;
+        StateHasChanged(); // ⬅️ wymuszenie odświeżenia po załadowaniu danych
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!_pageTitleSet && book != null)
+        {
+            await JS.InvokeVoidAsync("setTitle", $"{book.Title} - Biblioteka SP 123 w Testach");
+            _pageTitleSet = true;
+
+            await JS.InvokeVoidAsync("applyUserPreferences");
+        }
     }
 
     private async Task LoadData()

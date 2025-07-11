@@ -54,3 +54,8 @@ window.clearClientStorage = () => {
 
     location.reload();
 };
+
+//tytul ksiazki w tytule karty
+window.setTitle = (title) => {
+    document.title = title;
+}
