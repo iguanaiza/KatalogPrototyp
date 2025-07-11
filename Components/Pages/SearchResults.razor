@@ -72,7 +72,7 @@
                                 <div class="book-cover-container">
                                     @if (book.ImageUrl == null)
                                     {
-                                        <p class="text-muted text-center m-0">Brak okładki.</p>
+                                    <p class="theme-font-col-pri text-center m-0">Brak okładki.</p>
                                     }
                                     else
                                     {
@@ -127,7 +127,7 @@
                 <h5 class="mb-3">Filtry</h5>
             <!-- Przyciski akcji -->
             <div class="d-flex justify-content-center gap-2 my-3">
-                <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                <button class="btn btn-outline-primary w-100" @onclick="ClearAllFilters">Wyczyść</button>
                 <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
             </div>
             <!-- Autorzy -->
@@ -259,7 +259,7 @@
 
                 <!-- Przyciski akcji -->
                 <div class="d-flex justify-content-center gap-2 my-3">
-                    <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                    <button class="btn btn-outline-primary w-100" @onclick="ClearAllFilters">Wyczyść</button>
                     <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
                 </div>
             </div>
@@ -403,7 +403,7 @@
 
 
                 <div class="d-flex justify-content-center gap-2 my-3">
-                    <button class="btn btn-secondary w-100" @onclick="ClearAllFilters">Wyczyść</button>
+                    <button class="btn btn-outline-primary w-100" @onclick="ClearAllFilters">Wyczyść</button>
                     <button class="btn btn-primary w-100" @onclick="ApplyFilters">Zastosuj</button>
                 </div>
                 </div>

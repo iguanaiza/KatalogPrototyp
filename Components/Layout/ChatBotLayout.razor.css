@@ -120,14 +120,14 @@
 }
 
     .chat-message.user {
-        background-color: #3b82f6;
-        color: white;
+        color: var(--font-secondary);
+        background-color: var(--primary);
         text-align: right;
     }
 
     .chat-message.bot {
-        background-color: #e0e7ff;
-        color: #1e293b;
+        color: var(--font-secondary);
+        background-color: var(--primary-75);
         text-align: left;
     }
 
