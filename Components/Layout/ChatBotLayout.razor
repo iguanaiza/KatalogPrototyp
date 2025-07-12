@@ -134,7 +134,7 @@
             return ($"{powitanie} W czym mogę pomóc?", true);
         }
         
-        if (lowered.Contains("godziny") || lowered.Contains("otwarcia") || lowered.Contains("otwarte"))
+        if (lowered.Contains("godziny") || lowered.Contains("otwarcia") || lowered.Contains("otwarte") || lowered.Contains("informacje"))
             return ("🕒 Godziny otwarcia biblioteki: <br />" +
                     "Poniedziałek: 07:30 – 12:30<br />" +
                     "Wtorek: 08:00 – 13:30<br />" +
@@ -144,33 +144,27 @@
                     "ℹ Więcej informacji o bibliotece znajdziesz w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn btn-primary\">KONTAKT</a>.",
                     true);
 
-        if (lowered.Contains("pomoc") || lowered.Contains("informacje") || lowered.Contains("pomóż") || lowered.Contains("pomoz"))
+        if (lowered.Contains("pomoc") || lowered.Contains("pomóż") || lowered.Contains("pomoz"))
             return ("🤓 Chętnie pomogę! Możesz zapytać np. o lektury, podręczniki lub godziny otwarcia.<br /> <br />" +
                     "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
                     "<em>\"Szukam harry potter\"</em> <br /> <br />" +
                     "ℹ Informacje o bibliotece i godziny otwarcia znajdziesz w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">KONTAKT</a>.<br /> <br />" +
-                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/pomoc\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
                     true);
 
-        if (lowered.Contains("jak") || lowered.Contains("katalog") || lowered.Contains("dostępne"))
-            return ("📚 Wszystkie książki dostępne są w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">KATALOG</a>." +
+        if (lowered.Contains("katalog") || lowered.Contains("dostępne") || lowered.Contains("dostepne") || lowered.Contains("ksiazki") || lowered.Contains("książki"))
+            return ("📚 Wszystkie książki dostępne są w zakładce <a href=\"/catalog\" class=\"btn btn-sm btn-primary\">KATALOG</a>." +
                     "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
                     "<em>\"Szukam harry potter\"</em> <br />" +
-                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/kontakt\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
+                    "ℹ Instrukcja poruszania się po katalogu jest dostępna w zakładce <a href=\"/pomoc\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
                     true);
 
         if (lowered.Contains("lektur"))
             return ("📖 Listę lektur znajdziesz w zakładce <a href=\"/lektury\" class=\"btn btn-sm btn-primary\">Lektury</a>.",
-                    false);
+                    true);
 
         if (lowered.Contains("podręcznik") || lowered.Contains("podrecznik"))
             return ("📖 Listę podręczników znajdziesz w zakładce <a href=\"/podreczniki\" class=\"btn btn-sm btn-primary\">Podręczniki</a>.",
-                    false);
-
-        if (lowered.Contains("ksiazki") || lowered.Contains("książki"))
-            return ("📚 Wszystkie książki dostępne są w <a href=\"/catalog\" class=\"btn btn-sm btn-primary\">Katalogu</a>.<br /><br />" +
-                    "🔍 Jeśli szukasz konkretnego tytułu, skorzystaj z wyszukiwarki lub wpisz tutaj słowo \"Szukam\" i podaj tytuł książki lub słowo kluczowe, na przykład:<br />" +
-                    "<em>\"Szukam harry potter\"</em>",
                     true);
 
         if (lowered.Contains("szukam") || lowered.Contains("czy macie") || lowered.Contains("jest"))
@@ -215,7 +209,18 @@
             return ($"{pozegnanie}", true);
         }
 
-        return ("❓ Przepraszam, nie rozumiem pytania. Spróbuj inaczej lub zapytaj o 'pomoc'.",
+        if (lowered.Contains("ile") || lowered.Contains("wypozycz") || lowered.Contains("wypożycz") || lowered.Contains("jak"))
+            return ("Tylko zalogowani użytkownicy mogą wypożyczać książki przez katalog online. " +
+                    "Aby wypożyczyć książkę, kliknij przycisk \"Wypożycz\", widoczny na stronie wybranej książki. " +
+                    "Książka musi mieć status \"Dostępna\", aby wypożyczenie było możliwe. <br/> <br/>" +
+                    "Książka jest wypożyczana na okres 30 dni, licząc od daty kliknięcia przycisku \"Wypożycz\". " +
+                    "Po dokonaniu wypożyczenia, książka będzie przygotowana do odbioru w bibliotece.<br/><br/>" +
+                    "Czytelnik może wypożyczyć maksymalnie 3 książki naraz. " +
+                    "Możliwa jest jednorazowa prolongata o 30 dni.<br/><br/>" +
+                    "ℹ Więcej informacji znajdziesz w zakładce <a href=\"/pomoc\" class=\"btn btn-sm btn-primary\">POMOC</a>.",
+                    true);
+
+        return ("❓ Przepraszam, nie rozumiem pytania. Spróbuj inaczej lub zapytaj o 'pomoc'.<br/>",
                  false);
     }
 }
