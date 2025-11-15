@@ -61,3 +61,15 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# GitHub Language Statistics (Linguist) Fix
+#
+# Instruct GitHub to ignore vendored/library files from language stats.
+# This ensures C# is shown as the primary language instead of HTML/JS/CSS.
+###############################################################################
+wwwroot/lib/** linguist-vendored
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+*.razor linguist-language=C#
+*.cshtml linguist-language=HTML
