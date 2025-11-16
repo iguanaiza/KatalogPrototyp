@@ -17,10 +17,12 @@ To connect the database with the interface, an API based on ASP.NET Core 9 contr
 The AI chat feature will be implemented in the future (other project) using Azure OpenAI, a managed cloud service from Microsoft. It offers access to advanced OpenAI language models, enabling the creation of intelligent conversational systems that process user queries and generate relevant, natural-language responses.
 
 ## Project documentation
-**Partial project documentation** (in polish) is available in the file [Katalog_raport-końcowy_docs_PL.pdf](https://github.com/iguanaiza/KatalogPrototyp/blob/master/Katalog_raport-ko%C5%84cowy_docs_PL.pdf).
+**Partial project documentation** in polish is available in the file [Katalog_raport-końcowy_docs_PL.pdf](https://github.com/iguanaiza/KatalogPrototyp/blob/master/Katalog_raport-ko%C5%84cowy_docs_PL.pdf).
 Full version can be sent on request for job recruitment process.
 
 ## Live Azure project
-The project was published on Azure: https://katalogprototyp20250707094604.azurewebsites.net/ (if it's not working it means my student's account is no longer valid).
+The project was published on Azure: [Link here](https://katalogprototyp20250707094604.azurewebsites.net/). Sometimes it needs to reload a few times, as the site is not 'on live' 24/7.
+
+(if it's not working at all it means my student's account is no longer valid).
 
 The chatbot implemented is not AI one!
